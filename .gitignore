@@ -1,0 +1,72 @@
+## Ignore Visual Studio temporary files, build outputs, and user-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build Folders
+**/bin/
+**/obj/
+
+# Publish output
+**/publish/
+Client/publish/
+
+# Rider
+.idea/
+*.sln.iml
+
+# VS Code workspace settings
+.vscode/
+
+# NuGet
+*.nupkg
+# The packages folder can be ignored because of package references
+**/packages/
+.nuget/
+
+# Mac/Windows
+.DS_Store
+Thumbs.db
+
+# Logs and test results
+*.log
+TestResults/
+
+# Dotnet tools and local state
+*.dotnet_tool_root
+.project.json
+
+# User secrets and temp auth files (local dev only)
+# temp_auth.json and tmp_auth.json were used during local testing and must not be committed
+temp_auth.json
+tmp_auth.json
+
+# Local SQLite / dev DBs
+identity-dev.db
+*.db
+*.sqlite
+
+# Client artifacts / static hosts
+Tools/ClientHost/publish/
+Tools/ClientHost/*.pfx
+
+# Sensitive config generated during development
+*.p12
+*.pfx
+
+# JetBrains Rider caches
+.idea/
+*.sln.iml
+
+# Coverage
+coverage*/
+.coverage
+
+# Ignore local IIS Express and launcher files
+.vspscc
+.vssscc
+
+# Ignore compiled templates or other outputs
+**/wwwroot/_framework/
