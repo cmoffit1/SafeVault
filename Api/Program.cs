@@ -220,6 +220,28 @@ builder.WebHost.ConfigureKestrel(options =>
 
 var app = builder.Build();
 
+// In Development only: ensure the Identity database/schema exists so the
+// lightweight local SQLite store has the required AspNet* tables for
+// UserManager operations (register/auth). We prefer migrations for
+// production but calling EnsureCreated() in development avoids the
+// "no such table: AspNetUsers" error when running locally or in tests.
+if (app.Environment.IsDevelopment())
+{
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var db = scope.ServiceProvider.GetService<Api.Identity.ApplicationDbContext>();
+        db?.Database.EnsureCreated();
+        var logger = scope.ServiceProvider.GetService<Microsoft.Extensions.Logging.ILoggerFactory>()?.CreateLogger("Startup");
+        logger?.LogInformation("Ensured Identity DB created (Development).");
+    }
+    catch (System.Exception ex)
+    {
+        var logger = app.Services.GetService<Microsoft.Extensions.Logging.ILoggerFactory>()?.CreateLogger("Startup");
+        logger?.LogWarning(ex, "Failed to EnsureCreated Identity DB during startup (development)");
+    }
+}
+
 // Use CORS
 app.UseCors();
 

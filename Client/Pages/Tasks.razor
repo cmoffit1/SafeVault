@@ -1,6 +1,7 @@
 @page "/tasks"
 @inject System.Net.Http.HttpClient Http
 @inject Microsoft.JSInterop.IJSRuntime JS
+@inject Microsoft.AspNetCore.Components.NavigationManager Navigation
 
 <h3>My Tasks</h3>
 
@@ -99,6 +100,14 @@ else
             var resp = await Http.GetAsync("/tasks");
             if (!resp.IsSuccessStatusCode)
             {
+                // If not authenticated, behave like Admin page: show friendly message and navigate to login
+                if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    _createError = "You must be signed in to view your tasks.";
+                    _loaded = true;
+                    Navigation.NavigateTo("/login");
+                    return;
+                }
                 _createError = $"Failed to load tasks: {resp.ReasonPhrase}";
                 return;
             }
@@ -124,6 +133,13 @@ else
         _actionInProgress = false;
         if (!resp.IsSuccessStatusCode)
         {
+            if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                _createError = "You must be signed in to create a task.";
+                _statusMessage = _createError; _statusIsError = true;
+                Navigation.NavigateTo("/login");
+                return;
+            }
             _createError = $"Failed to create: {resp.StatusCode}";
             _statusMessage = _createError;
             _statusIsError = true;
@@ -144,6 +160,12 @@ else
         _actionInProgress = false;
         if (!resp.IsSuccessStatusCode)
         {
+            if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                _statusMessage = "You must be signed in to start tasks."; _statusIsError = true;
+                Navigation.NavigateTo("/login");
+                return;
+            }
             await JS.InvokeVoidAsync("alert", $"Failed to start task: {resp.StatusCode}");
             _statusMessage = $"Failed to start task: {resp.StatusCode}";
             _statusIsError = true;
@@ -163,6 +185,12 @@ else
         _actionInProgress = false;
         if (!resp.IsSuccessStatusCode)
         {
+            if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                _statusMessage = "You must be signed in to complete tasks."; _statusIsError = true;
+                Navigation.NavigateTo("/login");
+                return;
+            }
             await JS.InvokeVoidAsync("alert", $"Failed to complete task: {resp.StatusCode}");
             _statusMessage = $"Failed to complete task: {resp.StatusCode}";
             _statusIsError = true;

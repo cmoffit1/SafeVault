@@ -1,6 +1,7 @@
 @page "/manager/tasks"
 @inject System.Net.Http.HttpClient Http
 @inject Microsoft.JSInterop.IJSRuntime JS
+@inject Microsoft.AspNetCore.Components.NavigationManager Navigation
 
 <h3>Manager — Tasks for Managed Users</h3>
 
@@ -111,7 +112,19 @@ else
         try
         {
             var resp = await Http.GetAsync("/manager/users");
-            if (!resp.IsSuccessStatusCode) { _managedUsers = System.Array.Empty<string>(); return; }
+            if (!resp.IsSuccessStatusCode)
+            {
+                if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    _statusMessage = "You must be signed in to view manager tasks.";
+                    _statusIsError = true;
+                    _loaded = true;
+                    Navigation.NavigateTo("/login");
+                    return;
+                }
+                _managedUsers = System.Array.Empty<string>();
+                return;
+            }
             _managedUsers = await resp.Content.ReadFromJsonAsync<string[]>() ?? System.Array.Empty<string>();
         }
         catch { }
@@ -126,6 +139,12 @@ else
         _actionInProgress = false;
         if (!resp.IsSuccessStatusCode)
         {
+            if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                _statusMessage = "You must be signed in to view manager tasks."; _statusIsError = true;
+                Navigation.NavigateTo("/login");
+                return;
+            }
             await JS.InvokeVoidAsync("alert", $"Failed to load tasks: {resp.StatusCode}");
             _statusMessage = $"Failed to load tasks: {resp.StatusCode}";
             _statusIsError = true;
@@ -153,6 +172,12 @@ else
         _actionInProgress = false;
         if (!resp.IsSuccessStatusCode)
         {
+            if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                _statusMessage = "You must be signed in to manage assignments."; _statusIsError = true;
+                Navigation.NavigateTo("/login");
+                return;
+            }
             await JS.InvokeVoidAsync("alert", $"Failed to reassign: {resp.StatusCode}");
             _statusMessage = $"Failed to reassign: {resp.StatusCode}";
             _statusIsError = true;
@@ -169,7 +194,19 @@ else
         try
         {
             var resp = await Http.GetAsync("/manager/users");
-            if (!resp.IsSuccessStatusCode) { _allUsers = System.Array.Empty<string>(); return; }
+            if (!resp.IsSuccessStatusCode)
+            {
+                if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    _allUsers = System.Array.Empty<string>();
+                    _statusMessage = "You must be signed in to view manager tasks.";
+                    _statusIsError = true;
+                    Navigation.NavigateTo("/login");
+                    return;
+                }
+                _allUsers = System.Array.Empty<string>();
+                return;
+            }
             _allUsers = await resp.Content.ReadFromJsonAsync<string[]>() ?? System.Array.Empty<string>();
         }
         catch { }
