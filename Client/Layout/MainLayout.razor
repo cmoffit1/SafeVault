@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+@inject System.Net.Http.HttpClient Http
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4 d-flex justify-content-between">
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <small class="text-muted">API: @Http.BaseAddress</small>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

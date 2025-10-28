@@ -1,0 +1,43 @@
+@page "/login"
+@inject Client.Services.IAuthService Auth
+@inject NavigationManager Nav
+
+<h3>Login</h3>
+
+<div>
+    <label>Username</label>
+    <input @bind="username" />
+</div>
+<div>
+    <label>Password</label>
+    <input type="password" @bind="password" />
+</div>
+<div>
+    <button @onclick="DoLogin">Login</button>
+    <button @onclick="NavigateToRegister" class="ms-2">Register</button>
+    @if (!string.IsNullOrEmpty(message)) { <p>@message</p> }
+</div>
+
+@code {
+    private string username = "admin";
+    private string password = "";
+    private string? message;
+
+    private async Task DoLogin()
+    {
+        var ok = await Auth.AuthenticateAsync(username, password);
+        if (ok)
+        {
+            Nav.NavigateTo("/");
+        }
+        else
+        {
+            message = "Login failed";
+        }
+    }
+
+    private void NavigateToRegister()
+    {
+        Nav.NavigateTo("/register");
+    }
+}

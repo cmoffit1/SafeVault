@@ -1,0 +1,175 @@
+@page "/tasks"
+@inject System.Net.Http.HttpClient Http
+@inject Microsoft.JSInterop.IJSRuntime JS
+
+<h3>My Tasks</h3>
+
+@if (!_loaded)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @if (!string.IsNullOrEmpty(_statusMessage))
+    {
+        <div class="alert @(_statusIsError ? "alert-danger" : "alert-success")" role="alert">@_statusMessage</div>
+    }
+    <div class="card card-body mb-3">
+        <h5>Create task</h5>
+        <div class="mb-2">
+            <input class="form-control" placeholder="Title" @bind="_newTitle" />
+        </div>
+        <div class="mb-2">
+            <textarea class="form-control" rows="3" placeholder="Description (optional)" @bind="_newDescription"></textarea>
+        </div>
+        <div>
+            <button class="btn btn-primary" @onclick="CreateSelfTask" disabled="@_actionInProgress">Create</button>
+        </div>
+        @if (!string.IsNullOrEmpty(_createError))
+        {
+            <div class="text-danger mt-2">@_createError</div>
+        }
+    </div>
+
+    <table class="table table-sm mt-3">
+        <thead>
+            <tr><th>Title</th><th>Description</th><th>Status</th><th>Created</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var t in _tasks)
+            {
+                <tr>
+                    <td>@t.Title</td>
+                    <td>@t.Description</td>
+                    <td>
+                        @if (t.Completed) { <span class="text-success">Completed</span> }
+                        else if (t.InProgress) { <span class="text-warning">In progress</span> }
+                        else { <span class="text-muted">Pending</span> }
+                    </td>
+                    <td>@t.CreatedAt.ToLocalTime().ToString("g")</td>
+                    <td>
+                        @if (!t.InProgress && !t.Completed)
+                        {
+                            <button class="btn btn-sm btn-secondary me-1" @onclick="() => StartTask(t.Id)" disabled="@_actionInProgress">Start</button>
+                        }
+                        @if (!t.Completed)
+                        {
+                            <button class="btn btn-sm btn-success" @onclick="() => CompleteTask(t.Id)" disabled="@_actionInProgress">Complete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private TaskDto[] _tasks = System.Array.Empty<TaskDto>();
+    private bool _loaded = false;
+    private string _newTitle = string.Empty;
+    private string _newDescription = string.Empty;
+    private string _createError = string.Empty;
+    private bool _actionInProgress = false;
+    private string _statusMessage = string.Empty;
+    private bool _statusIsError = false;
+
+    private class TaskDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public string Creator { get; set; } = string.Empty;
+        public string Assignee { get; set; } = string.Empty;
+        public bool InProgress { get; set; }
+        public bool Completed { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public System.DateTime? CompletedAt { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTasks();
+    }
+
+    private async Task LoadTasks()
+    {
+        _loaded = false;
+        try
+        {
+            var resp = await Http.GetAsync("/tasks");
+            if (!resp.IsSuccessStatusCode)
+            {
+                _createError = $"Failed to load tasks: {resp.ReasonPhrase}";
+                return;
+            }
+            _tasks = await resp.Content.ReadFromJsonAsync<TaskDto[]>() ?? System.Array.Empty<TaskDto>();
+        }
+        catch (Exception ex)
+        {
+            _createError = ex.Message;
+        }
+        finally
+        {
+            _loaded = true;
+        }
+    }
+
+    private async Task CreateSelfTask()
+    {
+        _createError = string.Empty;
+        if (string.IsNullOrWhiteSpace(_newTitle)) { _createError = "Title required"; return; }
+        var payload = new { Title = _newTitle, Description = _newDescription };
+        _actionInProgress = true;
+        var resp = await Http.PostAsJsonAsync("/tasks/self", payload);
+        _actionInProgress = false;
+        if (!resp.IsSuccessStatusCode)
+        {
+            _createError = $"Failed to create: {resp.StatusCode}";
+            _statusMessage = _createError;
+            _statusIsError = true;
+            return;
+        }
+        _newTitle = string.Empty; _newDescription = string.Empty;
+        _statusMessage = "Task created.";
+        _statusIsError = false;
+        await LoadTasks();
+    }
+
+    private async Task StartTask(int id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "Mark task as In Progress?");
+        if (!confirmed) return;
+        _actionInProgress = true;
+        var resp = await Http.SendAsync(new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Patch, $"/tasks/{id}/start"));
+        _actionInProgress = false;
+        if (!resp.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", $"Failed to start task: {resp.StatusCode}");
+            _statusMessage = $"Failed to start task: {resp.StatusCode}";
+            _statusIsError = true;
+            return;
+        }
+        _statusMessage = "Task started.";
+        _statusIsError = false;
+        await LoadTasks();
+    }
+
+    private async Task CompleteTask(int id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "Mark task as Completed?");
+        if (!confirmed) return;
+        _actionInProgress = true;
+        var resp = await Http.SendAsync(new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Patch, $"/tasks/{id}/complete"));
+        _actionInProgress = false;
+        if (!resp.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", $"Failed to complete task: {resp.StatusCode}");
+            _statusMessage = $"Failed to complete task: {resp.StatusCode}";
+            _statusIsError = true;
+            return;
+        }
+        _statusMessage = "Task completed.";
+        _statusIsError = false;
+        await LoadTasks();
+    }
+}

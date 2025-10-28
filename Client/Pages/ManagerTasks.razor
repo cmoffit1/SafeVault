@@ -1,0 +1,191 @@
+@page "/manager/tasks"
+@inject System.Net.Http.HttpClient Http
+@inject Microsoft.JSInterop.IJSRuntime JS
+
+<h3>Manager — Tasks for Managed Users</h3>
+
+@if (!_loaded)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="mb-3">
+        <label>Select user</label>
+        <select class="form-select" @onchange="OnSelectedChanged">
+            <option value="">-- select --</option>
+            @foreach (var u in _managedUsers)
+            {
+                <option value="@u">@u</option>
+            }
+        </select>
+    </div>
+
+    @if (!string.IsNullOrEmpty(_statusMessage))
+    {
+        <div class="alert @(_statusIsError ? "alert-danger" : "alert-success")" role="alert">@_statusMessage</div>
+    }
+
+    @if (!string.IsNullOrEmpty(_selectedUser))
+    {
+        <table class="table table-sm">
+            <thead>
+                <tr><th>User</th><th>Title</th><th>Description</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var t in _tasks)
+                {
+                    <tr>
+                        <td>@t.Assignee</td>
+                        <td>@t.Title</td>
+                        <td>@t.Description</td>
+                        <td>
+                            @if (t.Completed) { <span class="text-success">Completed</span> }
+                            else if (t.InProgress) { <span class="text-warning">In progress</span> }
+                            else { <span class="text-muted">Pending</span> }
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary me-1" @onclick="() => OpenReassign(t.Id)" disabled="@_actionInProgress">Reassign</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (_reassigningTaskId.HasValue)
+    {
+        <div class="card card-body mb-3">
+            <h5>Reassign task @_reassigningTaskId</h5>
+            <div class="mb-2">
+                <label>New assignee</label>
+                <select class="form-select" @bind="_newAssignee">
+                    <option value="">-- select --</option>
+                    @foreach (var u in _allUsers)
+                    {
+                        <option value="@u">@u</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-success me-2" @onclick="ConfirmReassign">Save</button>
+                <button class="btn btn-secondary" @onclick="() => _reassigningTaskId = null">Cancel</button>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    private bool _loaded = false;
+    private string[] _managedUsers = System.Array.Empty<string>();
+    private string[] _allUsers = System.Array.Empty<string>();
+    private string _selectedUser = string.Empty;
+    private List<TaskDto> _tasks = new();
+    private int? _reassigningTaskId = null;
+    private string _newAssignee = string.Empty;
+    private bool _actionInProgress = false;
+    private string _statusMessage = string.Empty;
+    private bool _statusIsError = false;
+
+    private class TaskDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public string Creator { get; set; } = string.Empty;
+        public string Assignee { get; set; } = string.Empty;
+        public bool InProgress { get; set; }
+        public bool Completed { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public System.DateTime? CompletedAt { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadManagedUsers();
+        await LoadAllUsers();
+    }
+
+    private async Task LoadManagedUsers()
+    {
+        try
+        {
+            var resp = await Http.GetAsync("/manager/users");
+            if (!resp.IsSuccessStatusCode) { _managedUsers = System.Array.Empty<string>(); return; }
+            _managedUsers = await resp.Content.ReadFromJsonAsync<string[]>() ?? System.Array.Empty<string>();
+        }
+        catch { }
+        finally { _loaded = true; }
+    }
+
+    private async Task LoadTasksForSelected()
+    {
+        if (string.IsNullOrEmpty(_selectedUser)) { _tasks = new(); return; }
+        _actionInProgress = true;
+        var resp = await Http.GetAsync($"/manager/users/{_selectedUser}/tasks");
+        _actionInProgress = false;
+        if (!resp.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", $"Failed to load tasks: {resp.StatusCode}");
+            _statusMessage = $"Failed to load tasks: {resp.StatusCode}";
+            _statusIsError = true;
+            return;
+        }
+        _tasks = (await resp.Content.ReadFromJsonAsync<TaskDto[]>() ?? System.Array.Empty<TaskDto>()).ToList();
+    }
+
+    private void OpenReassign(int id)
+    {
+        _reassigningTaskId = id;
+        _newAssignee = string.Empty;
+        _statusMessage = string.Empty;
+    }
+
+    private async Task ConfirmReassign()
+    {
+        if (!_reassigningTaskId.HasValue) return;
+        if (string.IsNullOrWhiteSpace(_newAssignee)) { await JS.InvokeVoidAsync("alert", "Pick an assignee"); return; }
+        var confirmed = await JS.InvokeAsync<bool>("confirm", $"Reassign task {_reassigningTaskId.Value} to {_newAssignee}?");
+        if (!confirmed) return;
+        _actionInProgress = true;
+        var payload = new { assignee = _newAssignee };
+        var resp = await Http.PostAsJsonAsync($"/tasks/{_reassigningTaskId.Value}/reassign", payload);
+        _actionInProgress = false;
+        if (!resp.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", $"Failed to reassign: {resp.StatusCode}");
+            _statusMessage = $"Failed to reassign: {resp.StatusCode}";
+            _statusIsError = true;
+            return;
+        }
+        _reassigningTaskId = null;
+        _statusMessage = "Task reassigned.";
+        _statusIsError = false;
+        await LoadTasksForSelected();
+    }
+
+    private async Task LoadAllUsers()
+    {
+        try
+        {
+            var resp = await Http.GetAsync("/manager/users");
+            if (!resp.IsSuccessStatusCode) { _allUsers = System.Array.Empty<string>(); return; }
+            _allUsers = await resp.Content.ReadFromJsonAsync<string[]>() ?? System.Array.Empty<string>();
+        }
+        catch { }
+    }
+
+    private class TaskDtoComparer : System.Collections.Generic.IEqualityComparer<TaskDto>
+    {
+        public bool Equals(TaskDto? x, TaskDto? y) => x?.Id == y?.Id;
+        public int GetHashCode(TaskDto obj) => obj.Id.GetHashCode();
+    }
+
+    private record LoadSelectedUserOnChange(string Selected) { }
+
+    private async Task OnSelectedChanged(ChangeEventArgs e)
+    {
+        _selectedUser = e?.Value?.ToString() ?? string.Empty;
+        await LoadTasksForSelected();
+    }
+}

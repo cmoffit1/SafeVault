@@ -1,0 +1,594 @@
+@page "/admin-dashboard"
+@inject System.Net.Http.HttpClient Http
+@inject Microsoft.AspNetCore.Components.NavigationManager Navigation
+@inject Microsoft.JSInterop.IJSRuntime JS
+
+<h3>Admin Dashboard</h3>
+
+@if (!_loaded)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="mb-3">
+        @if (!_showCreate)
+        {
+            <button class="btn btn-outline-primary" @onclick="() => _showCreate = true">New User</button>
+        }
+    </div>
+    
+    @if (!string.IsNullOrEmpty(_statusMessage))
+    {
+        <div class="alert @(_statusIsError ? "alert-danger" : "alert-success")" role="alert">@_statusMessage</div>
+    }
+
+    <table class="table table-sm">
+        <thead>
+            <tr><th>Username</th><th>Roles</th><th>Manager</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+        @foreach (var kv in _users)
+        {
+                <tr>
+                    <td>@kv.Key</td>
+                    <td>@string.Join(", ", kv.Value)</td>
+                    <td>
+                        @(_userManagers.TryGetValue(kv.Key, out var mgr) && !string.IsNullOrEmpty(mgr) ? mgr : "(none)")
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary me-2" @onclick="() => OpenAssign(kv.Key)">Assign</button>
+                        <button class="btn btn-sm btn-primary" @onclick="() => EditRoles(kv.Key)">Edit</button>
+                    </td>
+                </tr>
+        }
+        </tbody>
+    </table>
+}
+
+    @* Render the create panel, edit panel and assign panel below the grid for consistent placement *@
+    @if (_showCreate)
+    {
+        <div class="card card-body mb-3">
+            <h4>Create new user</h4>
+            <div class="mb-2">
+                <label class="form-label">Username</label>
+                <input class="form-control" @bind="_newUsername" />
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Password</label>
+                <input class="form-control" type="password" @bind="_newPassword" />
+                <div class="form-text">Password must be at least @_passwordMinLength characters. Use a passphrase for better security.</div>
+                <div class="mt-1">
+                    @if (string.IsNullOrEmpty(_newPassword))
+                    {
+                        <small class="text-muted">No password entered yet.</small>
+                    }
+                    else if (_newPassword.Length >= _passwordMinLength)
+                    {
+                        <small class="text-success">Password length OK (@_newPassword.Length)</small>
+                    }
+                    else
+                    {
+                        <small class="text-danger">Password too short (@_newPassword.Length of @_passwordMinLength)</small>
+                    }
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Roles — pick one or more (Allowed: @string.Join(", ", _allowedRoles))</label>
+                <div>
+                    @if (_allowedRoles.Length == 0)
+                    {
+                        <div class="text-muted">Loading roles...</div>
+                    }
+                    else
+                    {
+                        <div class="mb-2">
+                            <input class="form-control form-control-sm" placeholder="Filter roles..." @bind="_roleFilter" />
+                        </div>
+                        <div class="d-flex flex-wrap">
+                            @foreach (var role in _allowedRoles.Where(r => string.IsNullOrEmpty(_roleFilter) || r.Contains(_roleFilter, System.StringComparison.OrdinalIgnoreCase)))
+                            {
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" id="newrole_@role" checked="@(_newSelectedRoles.Contains(role))" @onchange="e => ToggleNewRole(e, role)" />
+                                    <label class="form-check-label" for="newrole_@role">@role</label>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-primary me-2" @onclick="CreateUser">Create user</button>
+                <button class="btn btn-secondary" @onclick="() => { _showCreate = false; _createError = string.Empty; _createSuccess = string.Empty; }">Cancel</button>
+            </div>
+            @if (!string.IsNullOrEmpty(_createError))
+            {
+                <div class="text-danger mt-2">@_createError</div>
+            }
+            @if (!string.IsNullOrEmpty(_createSuccess))
+            {
+                <div class="text-success mt-2">@_createSuccess</div>
+            }
+        </div>
+    }
+
+    @if (_editingUser != null)
+    {
+        <div class="card card-body mb-3">
+            <h4>Edit roles for @_editingUser</h4>
+        <label class="form-label">Roles — pick one or more (Allowed: @string.Join(", ", _allowedRoles))</label>
+        <div>
+            @if (_allowedRoles.Length == 0)
+            {
+                <div class="text-muted">Loading roles...</div>
+            }
+            else
+            {
+                <div class="mb-2">
+                    <input class="form-control form-control-sm" placeholder="Filter roles..." @bind="_roleFilter" />
+                </div>
+                <div class="d-flex flex-wrap">
+                    @foreach (var role in _allowedRoles.Where(r => string.IsNullOrEmpty(_roleFilter) || r.Contains(_roleFilter, System.StringComparison.OrdinalIgnoreCase)))
+                    {
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="checkbox" id="editrole_@role" checked="@(_rolesSelected.Contains(role))" @onchange="e => ToggleEditRole(e, role)" />
+                            <label class="form-check-label" for="editrole_@role">@role</label>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-success me-2" @onclick="ConfirmAndSaveRoles">Save</button>
+            <button class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
+        </div>
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="text-danger mt-2">@_errorMessage</div>
+        }
+    </div>
+}
+
+@code {
+    private System.Collections.Generic.Dictionary<string, string[]> _users = new();
+    // cache of assigned managers per user
+    private System.Collections.Generic.Dictionary<string, string?> _userManagers = new();
+    private bool _loaded = false;
+    private string? _editingUser;
+    private string _rolesText = string.Empty;
+    private string _errorMessage = string.Empty;
+    private string _statusMessage = string.Empty;
+    private bool _statusIsError = false;
+
+    // New user creation fields
+    private string _newUsername = string.Empty;
+    private string _newPassword = string.Empty;
+    private string _createError = string.Empty;
+    private string _createSuccess = string.Empty;
+    // client-side password hint / policy (matches server default PasswordPolicy.MinLength)
+    private int _passwordMinLength = 8;
+    // selected roles for the new user (checkboxes)
+    private System.Collections.Generic.List<string> _newSelectedRoles = new();
+    // selected roles when editing an existing user
+    private System.Collections.Generic.List<string> _rolesSelected = new();
+
+    // Allowed roles in the system - fetched from server
+    private string[] _allowedRoles = System.Array.Empty<string>();
+    // Show/hide the create-user panel
+    private bool _showCreate = false;
+    // role filter used by the searchable roles UI
+    private string _roleFilter = string.Empty;
+    // manager assignment UI state
+    private string? _assigningUser = null;
+    private string? _currentManager = null;
+    private string _managerSelection = string.Empty;
+    private string _managerFilter = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // fetch password policy first so hint shows correct min length
+        await LoadPasswordPolicy();
+        await LoadRoles();
+        await LoadUsers();
+    }
+
+    private async Task LoadPasswordPolicy()
+    {
+        try
+        {
+            var resp = await Http.GetAsync("/admin/password-policy");
+            if (!resp.IsSuccessStatusCode) return;
+            var json = await resp.Content.ReadFromJsonAsync<System.Text.Json.JsonElement?>();
+            if (json.HasValue)
+            {
+                if (json.Value.TryGetProperty("minLength", out var minElem) && minElem.ValueKind == System.Text.Json.JsonValueKind.Number)
+                {
+                    if (minElem.TryGetInt32(out var min)) _passwordMinLength = min;
+                }
+            }
+        }
+        catch
+        {
+            // ignore failure; keep default hint
+        }
+    }
+
+    private async Task LoadRoles()
+    {
+        try
+        {
+            var resp = await Http.GetAsync("/admin/roles");
+            if (!resp.IsSuccessStatusCode)
+            {
+                // if unauthorized, navigate to login
+                if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    // Not authenticated — show friendly message and navigate to login.
+                    _statusMessage = "You must be signed in as an admin to view this page.";
+                    _statusIsError = true;
+                    _loaded = true; // stop showing the generic loading indicator
+                    Navigation.NavigateTo("/login");
+                    return;
+                }
+                _statusMessage = $"Failed to load roles: {resp.ReasonPhrase}";
+                _statusIsError = true;
+                return;
+            }
+            var wrapper = await resp.Content.ReadFromJsonAsync<System.Text.Json.JsonElement?>();
+            if (wrapper.HasValue && wrapper.Value.TryGetProperty("roles", out var rolesElem) && rolesElem.ValueKind == System.Text.Json.JsonValueKind.Array)
+            {
+                var list = new System.Collections.Generic.List<string>();
+                foreach (var r in rolesElem.EnumerateArray())
+                {
+                    if (r.ValueKind == System.Text.Json.JsonValueKind.String) list.Add(r.GetString()!);
+                }
+                _allowedRoles = list.ToArray();
+            }
+        }
+        catch (System.Exception ex)
+        {
+            // Friendly message for common network failure seen in browser (Blazor WASM): "TypeError: Failed to fetch"
+            if (ex.Message != null && ex.Message.IndexOf("failed to fetch", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                _statusMessage = "Please login as an admin to see the roles.";
+            }
+            else
+            {
+                _statusMessage = "Error loading roles: " + ex.Message;
+            }
+            _statusIsError = true;
+        }
+    }
+
+    private async Task LoadUsers()
+    {
+        _statusMessage = string.Empty;
+        _statusIsError = false;
+        try
+        {
+            var resp = await Http.GetAsync("/admin/users");
+            if (!resp.IsSuccessStatusCode)
+            {
+                // if unauthorized, navigate to login
+                if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized || resp.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    // Not authenticated — show friendly message and navigate to login.
+                    _statusMessage = "You must be signed in as an admin to view this page.";
+                    _statusIsError = true;
+                    _loaded = true; // stop showing the generic loading indicator
+                    Navigation.NavigateTo("/login");
+                    return;
+                }
+                _statusMessage = $"Failed to load users: {resp.ReasonPhrase}";
+                _statusIsError = true;
+                return;
+            }
+            var users = await resp.Content.ReadFromJsonAsync<System.Collections.Generic.Dictionary<string, string[]>>();
+            if (users != null)
+            {
+                _users = users;
+                // populate per-user manager cache in parallel
+                var mgrDict = new System.Collections.Generic.Dictionary<string, string?>();
+                var tasks = new System.Collections.Generic.List<Task>();
+                foreach (var username in _users.Keys)
+                {
+                    // capture
+                    var user = username;
+                    tasks.Add(Task.Run(async () =>
+                    {
+                        try
+                        {
+                            var r = await Http.GetAsync($"/admin/users/{user}/manager");
+                            if (!r.IsSuccessStatusCode) { lock (mgrDict) { mgrDict[user] = null; } return; }
+                            var obj = await r.Content.ReadFromJsonAsync<System.Text.Json.JsonElement?>();
+                            string? mgr = null;
+                            if (obj.HasValue && obj.Value.TryGetProperty("manager", out var m) && m.ValueKind == System.Text.Json.JsonValueKind.String)
+                            {
+                                mgr = m.GetString();
+                            }
+                            lock (mgrDict) { mgrDict[user] = mgr; }
+                        }
+                        catch { lock (mgrDict) { mgrDict[user] = null; } }
+                    }));
+                }
+                await Task.WhenAll(tasks);
+                _userManagers = mgrDict;
+            }
+        }
+        catch (System.Exception ex)
+        {
+            // Friendly message for network/auth failures in browser (e.g., TypeError: Failed to fetch)
+            if (ex.Message != null && ex.Message.IndexOf("failed to fetch", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                _statusMessage = "Please login as an admin to see the users.";
+            }
+            else
+            {
+                _statusMessage = "Error loading users: " + ex.Message;
+            }
+            _statusIsError = true;
+        }
+        finally
+        {
+            _loaded = true;
+            StateHasChanged();
+        }
+    }
+
+    private void EditRoles(string username)
+    {
+        // close create panel if open
+        _showCreate = false;
+        _createError = string.Empty;
+        _createSuccess = string.Empty;
+        _editingUser = username;
+        _rolesSelected = new System.Collections.Generic.List<string>(_users[username]);
+        _errorMessage = string.Empty;
+        _statusMessage = string.Empty;
+    }
+
+    private async Task OpenAssign(string username)
+    {
+        // close create panel if open
+        _showCreate = false;
+        _createError = string.Empty;
+        _createSuccess = string.Empty;
+        _assigningUser = username;
+        _managerSelection = string.Empty;
+        _managerFilter = string.Empty;
+        _currentManager = null;
+        // fetch current manager for this user
+        try
+        {
+            var resp = await Http.GetAsync($"/admin/users/{username}/manager");
+            if (resp.IsSuccessStatusCode)
+            {
+                var obj = await resp.Content.ReadFromJsonAsync<System.Text.Json.JsonElement?>();
+                if (obj.HasValue && obj.Value.TryGetProperty("manager", out var m) && m.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    _currentManager = m.GetString();
+                    _managerSelection = _currentManager ?? string.Empty;
+                }
+            }
+        }
+        catch { /* ignore */ }
+    }
+
+    private void CancelAssign()
+    {
+        _assigningUser = null;
+        _currentManager = null;
+        _managerSelection = string.Empty;
+        _managerFilter = string.Empty;
+    }
+
+    private async Task ConfirmAssign()
+    {
+        if (string.IsNullOrEmpty(_assigningUser)) return;
+        try
+        {
+            var body = new System.Collections.Generic.Dictionary<string, string?>() { ["manager"] = string.IsNullOrWhiteSpace(_managerSelection) ? null : _managerSelection };
+            var resp = await Http.PostAsJsonAsync($"/admin/users/{_assigningUser}/manager", body);
+            if (!resp.IsSuccessStatusCode)
+            {
+                var txt = await resp.Content.ReadAsStringAsync();
+                _statusMessage = $"Failed to set manager: {resp.StatusCode} - {txt}";
+                _statusIsError = true;
+                return;
+            }
+
+            _statusMessage = "Manager assignment updated.";
+            _statusIsError = false;
+            // refresh users list
+            await LoadUsers();
+            CancelAssign();
+        }
+        catch (System.Exception ex)
+        {
+            _statusMessage = "Error assigning manager: " + ex.Message;
+            _statusIsError = true;
+        }
+    }
+
+    private void CancelEdit()
+    {
+        _editingUser = null;
+        _errorMessage = string.Empty;
+        _rolesSelected.Clear();
+    }
+
+    private async Task ConfirmAndSaveRoles()
+    {
+        if (_editingUser == null) return;
+        // use selected roles from checkboxes
+        var roles = _rolesSelected.ToArray();
+        // validate allowed roles
+        foreach (var r in roles)
+        {
+            if (System.Array.IndexOf(_allowedRoles, r) < 0)
+            {
+                _errorMessage = $"Invalid role '{r}'. Allowed roles: {string.Join(", ", _allowedRoles)}";
+                return;
+            }
+        }
+
+        // confirmation dialog
+        var confirmed = await JS.InvokeAsync<bool>("confirm", $"Set roles for '{_editingUser}' to: {string.Join(", ", roles)}?\nThis action will change access rights.");
+        if (!confirmed) return;
+
+        try
+        {
+            var body = new System.Collections.Generic.Dictionary<string, string[]>() { ["roles"] = roles };
+            var resp = await Http.PostAsJsonAsync($"/admin/users/{_editingUser}/roles", body);
+            if (!resp.IsSuccessStatusCode)
+            {
+                var err = await resp.Content.ReadAsStringAsync();
+                _errorMessage = $"Failed to save roles: {resp.StatusCode} - {err}";
+                _statusIsError = true;
+                _statusMessage = _errorMessage;
+                return;
+            }
+
+            _statusMessage = "Roles updated successfully.";
+            _statusIsError = false;
+            await LoadUsers();
+            _editingUser = null;
+        }
+        catch (System.Exception ex)
+        {
+            _errorMessage = "Error saving roles: " + ex.Message;
+            _statusIsError = true;
+        }
+    }
+
+    private async Task CreateUser()
+    {
+        _createError = string.Empty;
+        _createSuccess = string.Empty;
+
+    var username = SanitizeLocal(_newUsername ?? string.Empty).Trim();
+        if (string.IsNullOrEmpty(username)) { _createError = "Username is required"; return; }
+        if (string.IsNullOrEmpty(_newPassword)) { _createError = "Password is required"; return; }
+
+        // use checkbox-selected roles; default to User
+        var rolesList = _newSelectedRoles.Count > 0 ? _newSelectedRoles : new System.Collections.Generic.List<string>() { "User" };
+        var roles = rolesList.ToArray();
+        // validate allowed roles
+        foreach (var r in roles)
+        {
+            if (System.Array.IndexOf(_allowedRoles, r) < 0)
+            {
+                _createError = $"Invalid role '{r}'. Allowed roles: {string.Join(", ", _allowedRoles)}";
+                return;
+            }
+        }
+
+        var payload = new { Username = username, Password = _newPassword, Roles = roles };
+        try
+        {
+            var resp = await Http.PostAsJsonAsync("/admin/users", payload);
+            if (resp.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                _createError = "User already exists";
+                return;
+            }
+            if (!resp.IsSuccessStatusCode)
+            {
+                var body = await resp.Content.ReadAsStringAsync();
+                _createError = $"Failed to create user: {resp.StatusCode} - {body}";
+                return;
+            }
+
+            _createSuccess = "User created successfully.";
+            _newUsername = string.Empty; _newPassword = string.Empty; _newSelectedRoles.Clear();
+            await LoadUsers();
+        }
+        catch (System.Exception ex)
+        {
+            _createError = "Error creating user: " + ex.Message;
+        }
+    }
+
+    private void ToggleNewRole(Microsoft.AspNetCore.Components.ChangeEventArgs e, string role)
+    {
+        bool isChecked = false;
+        if (e?.Value is bool b) isChecked = b;
+        else if (e?.Value is string s && bool.TryParse(s, out var pb)) isChecked = pb;
+        if (isChecked)
+        {
+            if (!_newSelectedRoles.Contains(role)) _newSelectedRoles.Add(role);
+        }
+        else
+        {
+            _newSelectedRoles.Remove(role);
+        }
+    }
+
+    private void ToggleEditRole(Microsoft.AspNetCore.Components.ChangeEventArgs e, string role)
+    {
+        bool isChecked = false;
+        if (e?.Value is bool b) isChecked = b;
+        else if (e?.Value is string s && bool.TryParse(s, out var pb)) isChecked = pb;
+        if (isChecked)
+        {
+            if (!_rolesSelected.Contains(role)) _rolesSelected.Add(role);
+        }
+        else
+        {
+            _rolesSelected.Remove(role);
+        }
+    }
+
+    // Helper: return users that are managers (have Manager role)
+    private System.Collections.Generic.IEnumerable<string> ManagerCandidates()
+    {
+        foreach (var kv in _users)
+        {
+            if (kv.Value != null && System.Array.IndexOf(kv.Value, "Manager") >= 0)
+                yield return kv.Key;
+        }
+    }
+
+    private static string SanitizeLocal(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+        var s = input.Normalize(System.Text.NormalizationForm.FormKC).Trim();
+        s = System.Text.RegularExpressions.Regex.Replace(s, "\\p{C}+", string.Empty);
+        // allow a safe subset: letters, digits, dot, underscore, at
+        s = System.Text.RegularExpressions.Regex.Replace(s, "[^A-Za-z0-9._@]+", string.Empty);
+        return s;
+    }
+}
+
+@if (_assigningUser != null)
+{
+    <div class="card card-body mb-3">
+        <h4>Assign manager for @_assigningUser</h4>
+        <div class="mb-2">
+            <label class="form-label">Current manager: </label>
+            <div>@(_currentManager ?? "(none)")</div>
+        </div>
+        <div class="mb-2">
+            <label class="form-label">Select manager</label>
+            <input class="form-control form-control-sm mb-2" placeholder="Filter managers..." @bind="_managerFilter" />
+            <div class="d-flex flex-column">
+                @foreach (var m in ManagerCandidates().Where(u => string.IsNullOrEmpty(_managerFilter) || u.Contains(_managerFilter, System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="mgr_@m" name="mgrSelect" checked="@(m == _managerSelection)" @onchange="() => _managerSelection = m" />
+                        <label class="form-check-label" for="mgr_@m">@m</label>
+                    </div>
+                }
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="radio" id="mgr_none" name="mgrSelect" checked="@(string.IsNullOrEmpty(_managerSelection))" @onchange="() => _managerSelection = string.Empty" />
+                    <label class="form-check-label" for="mgr_none">(No manager — clear)</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-success me-2" @onclick="ConfirmAssign">Save</button>
+            <button class="btn btn-secondary" @onclick="CancelAssign">Cancel</button>
+        </div>
+    </div>
+}

@@ -1,0 +1,81 @@
+@page "/register"
+@inject HttpClient Http
+@inject NavigationManager Nav
+
+<h3>Register</h3>
+
+<div class="mb-2">
+    <label class="form-label">Username</label>
+    <input class="form-control" @bind="username" />
+</div>
+<div class="mb-2">
+    <label class="form-label">Password</label>
+    <input type="password" class="form-control" @bind="password" />
+</div>
+<div class="mb-2">
+    <label class="form-label">Confirm Password</label>
+    <input type="password" class="form-control" @bind="confirm" />
+</div>
+
+<div class="mb-2">
+    <button class="btn btn-primary" @onclick="Submit" disabled="@isRunning">Register</button>
+    <button class="btn btn-link" @onclick="NavigateToLogin">Back to login</button>
+    @if (!string.IsNullOrEmpty(message)) { <div class="mt-2">@message</div> }
+    @if (success) { <div class="mt-2 text-success">Registration successful — you may now log in.</div> }
+</div>
+
+@code {
+    private string username = string.Empty;
+    private string password = string.Empty;
+    private string confirm = string.Empty;
+    private string? message;
+    private bool success = false;
+    private bool isRunning = false;
+
+    private async Task Submit()
+    {
+        message = null;
+        success = false;
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            message = "Username and password are required.";
+            return;
+        }
+        if (password != confirm)
+        {
+            message = "Passwords do not match.";
+            return;
+        }
+
+        isRunning = true;
+        try
+        {
+            var payload = new { username = username, password = password };
+            var resp = await Http.PostAsJsonAsync("/register", payload);
+            if (resp.IsSuccessStatusCode)
+            {
+                success = true;
+                // navigate user to login after short delay
+                await Task.Delay(800);
+                Nav.NavigateTo("/login");
+            }
+            else
+            {
+                var text = await resp.Content.ReadAsStringAsync();
+                message = $"Registration failed: {resp.StatusCode} {text}";
+            }
+        }
+        catch (Exception ex)
+        {
+            message = ex.Message;
+        }
+        finally
+        {
+            isRunning = false;
+        }
+    }
+    private void NavigateToLogin()
+    {
+        Nav.NavigateTo("/login");
+    }
+}

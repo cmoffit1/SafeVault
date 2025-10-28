@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run API",
+			"type": "shell",
+			"command": "dotnet run --project Api/Api.csproj",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run Client",
+			"type": "shell",
+			"command": "dotnet run --project Client/Client.csproj",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

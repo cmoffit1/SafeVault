@@ -1,0 +1,61 @@
+@using Microsoft.AspNetCore.Components.Forms
+@page "/webform"
+@using System.Net.Http.Json
+@inject HttpClient Http
+
+<h3>User Input Validation Form</h3>
+
+<EditForm Model="userInput" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <label>Username:</label>
+        <InputText @bind-Value="userInput.Username" />
+    </div>
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="userInput.Email" />
+    </div>
+    <button type="submit">Validate</button>
+</EditForm>
+
+@if (result != null)
+{
+    <div class="alert alert-info">
+        <strong>Sanitized Username:</strong> @result.SanitizedUsername <br />
+        <strong>Sanitized Email:</strong> @result.SanitizedEmail
+    </div>
+}
+
+@code {
+    private UserInputModel userInput = new();
+    private ValidationResult? result;
+
+    private async Task HandleValidSubmit()
+    {
+        var usernameResponse = await Http.PostAsJsonAsync("/validate", new { UserInput = userInput.Username });
+        var emailResponse = await Http.PostAsJsonAsync("/validate", new { UserInput = userInput.Email });
+        var usernameSanitized = await usernameResponse.Content.ReadFromJsonAsync<SanitizedResult>();
+        var emailSanitized = await emailResponse.Content.ReadFromJsonAsync<SanitizedResult>();
+        result = new ValidationResult
+        {
+            SanitizedUsername = usernameSanitized?.sanitized ?? string.Empty,
+            SanitizedEmail = emailSanitized?.sanitized ?? string.Empty
+        };
+    }
+
+    public class UserInputModel
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+    public class SanitizedResult
+    {
+        public string sanitized { get; set; } = string.Empty;
+    }
+    public class ValidationResult
+    {
+        public string SanitizedUsername { get; set; } = string.Empty;
+        public string SanitizedEmail { get; set; } = string.Empty;
+    }
+}

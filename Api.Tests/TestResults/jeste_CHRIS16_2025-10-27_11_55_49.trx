@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4abefc2b-f2ab-4c95-a738-5fbba997ddbf" name="jeste@CHRIS16 2025-10-27 11:55:49" runUser="CHRIS16\jeste" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-10-27T11:55:49.1005689-04:00" queuing="2025-10-27T11:55:49.1005694-04:00" start="2025-10-27T11:55:47.2405422-04:00" finish="2025-10-27T11:55:52.5401688-04:00" />
+  <TestSettings name="default" id="fccab67e-d586-4d18-bb5d-3ede404a95af">
+    <Deployment runDeploymentRoot="jeste_CHRIS16_2025-10-27_11_55_49" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2849ac2b-e2c8-4c03-8938-763b46eb4671" testId="6d7d9acf-a3c0-760a-7cf9-fbe172dbe400" testName="NonAdminAuthenticated_CannotAssign_Manager_Returns_Forbidden" computerName="CHRIS16" duration="00:00:00.3688790" startTime="2025-10-27T11:55:49.6862188-04:00" endTime="2025-10-27T11:55:50.0550980-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2849ac2b-e2c8-4c03-8938-763b46eb4671" />
+    <UnitTestResult executionId="d2ad2d93-b496-4760-94b9-8838f3d17d89" testId="6f6bd1f1-b557-41fa-b188-82549366ae45" testName="Authenticate_ValidCredentials_Succeeds" computerName="CHRIS16" duration="00:00:00.3646960" startTime="2025-10-27T11:55:51.4782658-04:00" endTime="2025-10-27T11:55:51.8429610-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d2ad2d93-b496-4760-94b9-8838f3d17d89" />
+    <UnitTestResult executionId="decb949e-21c1-4d81-8e5b-709f1a84314f" testId="235653c1-a35e-5dae-16ac-1c97d075d3a0" testName="TestForSQLInjection_Union" computerName="CHRIS16" duration="00:00:00.0000740" startTime="2025-10-27T11:55:51.0009767-04:00" endTime="2025-10-27T11:55:51.0010510-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="decb949e-21c1-4d81-8e5b-709f1a84314f" />
+    <UnitTestResult executionId="c26316a5-fcdd-49c0-a823-604cf694cb16" testId="ff49bbc3-a7d9-3bb5-ec05-71a2c6e40380" testName="Register_InvalidInput_Fails" computerName="CHRIS16" duration="00:00:00.0009990" startTime="2025-10-27T11:55:52.3258923-04:00" endTime="2025-10-27T11:55:52.3268917-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c26316a5-fcdd-49c0-a823-604cf694cb16" />
+    <UnitTestResult executionId="e0de626b-c747-43ed-943a-79a754a8505f" testId="e6030fd9-acf8-7681-32c9-55edad5495f6" testName="Sanitize_RemovesSqlKeywordsAndPunctuation" computerName="CHRIS16" duration="00:00:00.0001880" startTime="2025-10-27T11:55:50.9987754-04:00" endTime="2025-10-27T11:55:50.9989636-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e0de626b-c747-43ed-943a-79a754a8505f" />
+    <UnitTestResult executionId="e7d6fba8-5dfc-49d1-80b4-1eb6b2c3d9df" testId="35bcc17b-8868-51c9-7380-500ff30df65f" testName="AdminUser_CanList_AllUsers" computerName="CHRIS16" duration="00:00:00.7767560" startTime="2025-10-27T11:55:47.7611324-04:00" endTime="2025-10-27T11:55:48.5378883-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e7d6fba8-5dfc-49d1-80b4-1eb6b2c3d9df">
+      <Output>
+        <StdOut>info: Seed[0]&#xD;
+      Seeded initial admin user 'admin'&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: https://localhost:5046&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: http://localhost:5046&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication attempt for username 'listadmin'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication succeeded for username 'listadmin'</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c7164b5c-04a2-4c58-8873-6b7915325807" testId="5da4a881-a09c-f09b-5abe-f0ba486c7b3a" testName="When_DefaultConnection_Exists_Registers_UserRepository" computerName="CHRIS16" duration="00:00:00.0009430" startTime="2025-10-27T11:55:50.9973940-04:00" endTime="2025-10-27T11:55:50.9983367-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c7164b5c-04a2-4c58-8873-6b7915325807" />
+    <UnitTestResult executionId="76503e74-e7bb-4560-b7e1-29fb1e86d8be" testId="297cb882-8b36-3fe7-e89d-ef61cdf79dd0" testName="Register_ValidUser_Succeeds" computerName="CHRIS16" duration="00:00:00.1407900" startTime="2025-10-27T11:55:52.3269148-04:00" endTime="2025-10-27T11:55:52.4677048-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="76503e74-e7bb-4560-b7e1-29fb1e86d8be" />
+    <UnitTestResult executionId="f16e0d12-2668-4b90-b7c8-6b6008bf2551" testId="6c88316a-55b3-a01d-fabf-9ccae9c8f11c" testName="Authenticate_SanitizationApplied" computerName="CHRIS16" duration="00:00:00.4769750" startTime="2025-10-27T11:55:51.0012497-04:00" endTime="2025-10-27T11:55:51.4782239-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f16e0d12-2668-4b90-b7c8-6b6008bf2551" />
+    <UnitTestResult executionId="57e06f21-cb97-4a51-882b-334613578072" testId="267a80f6-21b5-1836-ca2f-a41d4d97df19" testName="AdminUser_CanGetToken_AndAccess_AdminEndpoint" computerName="CHRIS16" duration="00:00:00.2932180" startTime="2025-10-27T11:55:49.0063276-04:00" endTime="2025-10-27T11:55:49.2995450-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57e06f21-cb97-4a51-882b-334613578072" />
+    <UnitTestResult executionId="1bc89f7e-a896-4ffa-87ca-7e59991cb411" testId="2659d590-577e-2fb2-e7c1-cd0ed5646ff7" testName="Authenticate_WrongPassword_Fails" computerName="CHRIS16" duration="00:00:00.3402340" startTime="2025-10-27T11:55:51.8429961-04:00" endTime="2025-10-27T11:55:52.1832295-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1bc89f7e-a896-4ffa-87ca-7e59991cb411" />
+    <UnitTestResult executionId="2f04a4b6-f51f-4b54-a30d-110d9aeeaad1" testId="4cccfcc9-c5f1-88f4-602c-4d25b0167638" testName="TestForSQLInjection_Stacked" computerName="CHRIS16" duration="00:00:00.0000620" startTime="2025-10-27T11:55:50.9993393-04:00" endTime="2025-10-27T11:55:50.9994010-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f04a4b6-f51f-4b54-a30d-110d9aeeaad1" />
+    <UnitTestResult executionId="90e91fa3-f9be-4fcc-a4ce-c53cab93495d" testId="751ec890-a1e5-1239-307b-ccdebdcd929f" testName="When_NoConnectionString_Registers_InMemoryRepo" computerName="CHRIS16" duration="00:00:00.0003130" startTime="2025-10-27T11:55:50.9983573-04:00" endTime="2025-10-27T11:55:50.9986700-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="90e91fa3-f9be-4fcc-a4ce-c53cab93495d" />
+    <UnitTestResult executionId="b0cfdb1c-2ad3-4c47-ae87-0d55a6284c38" testId="193e71bb-3054-9c5c-477d-61883abd9fcb" testName="Admin_CanAssign_AndClear_ManagerForUser" computerName="CHRIS16" duration="00:00:00.6608320" startTime="2025-10-27T11:55:50.0587968-04:00" endTime="2025-10-27T11:55:50.7196283-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b0cfdb1c-2ad3-4c47-ae87-0d55a6284c38" />
+    <UnitTestResult executionId="cfc541a7-83da-4cf7-9f56-fcbff08b449a" testId="be838838-d8fb-64c7-6161-298c8892f055" testName="IsLikelyXssAttempt_DetectsCommonPatterns" computerName="CHRIS16" duration="00:00:00.0014880" startTime="2025-10-27T11:55:52.4680320-04:00" endTime="2025-10-27T11:55:52.4695200-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cfc541a7-83da-4cf7-9f56-fcbff08b449a" />
+    <UnitTestResult executionId="3aaf2817-2941-457b-b10c-b4b6651fceef" testId="0e5c9324-fe2d-4953-186e-0bfada02196c" testName="TestForSQLInjection_Tautology" computerName="CHRIS16" duration="00:00:00.0000560" startTime="2025-10-27T11:55:50.9994063-04:00" endTime="2025-10-27T11:55:50.9994625-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3aaf2817-2941-457b-b10c-b4b6651fceef" />
+    <UnitTestResult executionId="2278e30f-2aa0-4e6d-a65e-1d6ef13cf202" testId="a9e1a7cb-c9da-0feb-4ce4-18cafc71f28a" testName="CreateUser_AdminCanCreateUser" computerName="CHRIS16" duration="00:00:00.0824120" startTime="2025-10-27T11:55:47.6762373-04:00" endTime="2025-10-27T11:55:47.7586202-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2278e30f-2aa0-4e6d-a65e-1d6ef13cf202" />
+    <UnitTestResult executionId="e55b622f-7f25-4ec4-afbf-844b7490eab3" testId="4e1270e5-0306-4242-3ec8-c7da0dc828cb" testName="NeedsUpgrade_ReturnsTrueWhenParamsLower" computerName="CHRIS16" duration="00:00:00.0649800" startTime="2025-10-27T11:55:50.7198348-04:00" endTime="2025-10-27T11:55:50.7848143-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e55b622f-7f25-4ec4-afbf-844b7490eab3" />
+    <UnitTestResult executionId="51b235ff-46d0-4620-9399-e94343002b16" testId="ad2fd7d3-4bbc-6645-0114-37cde3ab61e4" testName="TestForSQLInjection_TestUserRepository" computerName="CHRIS16" duration="00:00:00.0013680" startTime="2025-10-27T11:55:50.9994676-04:00" endTime="2025-10-27T11:55:51.0008354-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="51b235ff-46d0-4620-9399-e94343002b16" />
+    <UnitTestResult executionId="a2e99ba9-8e7e-4a84-aece-4a5ac1580043" testId="4530a0a9-dc8f-5216-7f34-0252a3d74013" testName="HashAndVerify_Succeeds" computerName="CHRIS16" duration="00:00:00.2120310" startTime="2025-10-27T11:55:50.7850757-04:00" endTime="2025-10-27T11:55:50.9971055-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2e99ba9-8e7e-4a84-aece-4a5ac1580043" />
+    <UnitTestResult executionId="9e1d6cb9-7605-49c1-9447-ff4349f7ea1a" testId="fa41d05a-702f-ca79-7127-eb5ecc068a1f" testName="Unauthenticated_CannotAccess_ManagerEndpoints_Returns_Unauthorized" computerName="CHRIS16" duration="00:00:00.0034390" startTime="2025-10-27T11:55:50.0551433-04:00" endTime="2025-10-27T11:55:50.0585819-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e1d6cb9-7605-49c1-9447-ff4349f7ea1a" />
+    <UnitTestResult executionId="17f0ed88-ae6b-4f24-a164-245bd9b31350" testId="7824a047-162c-c097-aef0-89e666af1846" testName="SanitizeForHtml_RemovesScriptTagsAndEventHandlers" computerName="CHRIS16" duration="00:00:00.0001499" startTime="2025-10-27T11:55:52.4700083-04:00" endTime="2025-10-27T11:55:52.4701583-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="17f0ed88-ae6b-4f24-a164-245bd9b31350" />
+    <UnitTestResult executionId="9682337f-aa62-4ecb-890c-d03bb8d4a291" testId="b8856c4b-42fc-354e-2028-ba3c2b6a8acb" testName="TestForSQLInjection_Comment" computerName="CHRIS16" duration="00:00:00.0000680" startTime="2025-10-27T11:55:50.9991859-04:00" endTime="2025-10-27T11:55:50.9992535-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9682337f-aa62-4ecb-890c-d03bb8d4a291" />
+    <UnitTestResult executionId="ce39f8eb-e9eb-49b2-a369-ab848cbe5c89" testId="07b5874c-cd58-f956-f0b7-3a1ba63c686a" testName="TestForXSS_Sanitize" computerName="CHRIS16" duration="00:00:00.0000970" startTime="2025-10-27T11:55:51.0010595-04:00" endTime="2025-10-27T11:55:51.0011569-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ce39f8eb-e9eb-49b2-a369-ab848cbe5c89" />
+    <UnitTestResult executionId="199d6111-92cc-4e65-82dd-6315f15ef6d0" testId="3b6dc066-49e5-97f0-4635-0a2df30de694" testName="SanitizeForHtml_EncodesHtmlEntities" computerName="CHRIS16" duration="00:00:00.0004470" startTime="2025-10-27T11:55:52.4695377-04:00" endTime="2025-10-27T11:55:52.4699847-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="199d6111-92cc-4e65-82dd-6315f15ef6d0" />
+    <UnitTestResult executionId="8595c78b-7df6-4f22-915f-9cb19236b108" testId="c231eb87-2938-1553-1fd2-c315a2ae45ea" testName="Register_DuplicateUser_Fails" computerName="CHRIS16" duration="00:00:00.1425750" startTime="2025-10-27T11:55:52.1832751-04:00" endTime="2025-10-27T11:55:52.3258494-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8595c78b-7df6-4f22-915f-9cb19236b108" />
+    <UnitTestResult executionId="285cdba8-c966-4b55-9b68-f4661a72486b" testId="40c1d60d-72d6-cd3e-006c-567f9ffa3e57" testName="RehashOnLogin_PersistsNewHash" computerName="CHRIS16" duration="00:00:00.3862620" startTime="2025-10-27T11:55:49.2997042-04:00" endTime="2025-10-27T11:55:49.6859657-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="285cdba8-c966-4b55-9b68-f4661a72486b">
+      <Output>
+        <StdOut>info: Seed[0]&#xD;
+      Seeded initial admin user 'admin'&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: https://localhost:5046&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: http://localhost:5046&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication attempt for username 'rehashuser'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication succeeded for username 'rehashuser'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Rehashed password for username 'rehashuser' with upgraded parameters</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="eced14a7-0a3d-450c-86dd-287b34dc8276" testId="2e3cc4c0-9d60-f8f6-cb96-d95864c95912" testName="Register_And_Authenticate_EndToEnd" computerName="CHRIS16" duration="00:00:00.4680680" startTime="2025-10-27T11:55:48.5380788-04:00" endTime="2025-10-27T11:55:49.0061463-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eced14a7-0a3d-450c-86dd-287b34dc8276">
+      <Output>
+        <StdOut>info: Seed[0]&#xD;
+      Seeded initial admin user 'admin'&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: https://localhost:5046&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: http://localhost:5046&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      User 'integuser' registered successfully&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication attempt for username 'integuser'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication succeeded for username 'integuser'</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="27c327ff-fa0b-4fdf-b012-1806dec5a084" testId="5556af53-bd2f-5812-e982-8b00a18a139f" testName="TestForSQLInjection_TimeBased" computerName="CHRIS16" duration="00:00:00.0001100" startTime="2025-10-27T11:55:51.0008541-04:00" endTime="2025-10-27T11:55:51.0009639-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="27c327ff-fa0b-4fdf-b012-1806dec5a084" />
+    <UnitTestResult executionId="09ee5e95-84c4-4e1c-a248-755c5b761f66" testId="2a9a555d-ed86-ab18-3041-46983552025b" testName="TestForSQLInjection_Blind" computerName="CHRIS16" duration="00:00:00.0001230" startTime="2025-10-27T11:55:50.9990522-04:00" endTime="2025-10-27T11:55:50.9991755-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="09ee5e95-84c4-4e1c-a248-755c5b761f66" />
+    <UnitTestResult executionId="aa8d3d92-df77-4d4b-bf4d-1f7f132e09d2" testId="d3263073-8444-f834-4f07-b03644306f82" testName="TestForSQLInjection_Sanitize" computerName="CHRIS16" duration="00:00:00.0000730" startTime="2025-10-27T11:55:50.9992602-04:00" endTime="2025-10-27T11:55:50.9993330-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aa8d3d92-df77-4d4b-bf4d-1f7f132e09d2" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="TestForSQLInjection_TimeBased" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="5556af53-bd2f-5812-e982-8b00a18a139f">
+      <Execution id="27c327ff-fa0b-4fdf-b012-1806dec5a084" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_TimeBased" />
+    </UnitTest>
+    <UnitTest name="Register_And_Authenticate_EndToEnd" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="2e3cc4c0-9d60-f8f6-cb96-d95864c95912">
+      <Execution id="eced14a7-0a3d-450c-86dd-287b34dc8276" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.IntegrationTests.AuthEndpointsTests" name="Register_And_Authenticate_EndToEnd" />
+    </UnitTest>
+    <UnitTest name="TestForSQLInjection_Stacked" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="4cccfcc9-c5f1-88f4-602c-4d25b0167638">
+      <Execution id="2f04a4b6-f51f-4b54-a30d-110d9aeeaad1" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_Stacked" />
+    </UnitTest>
+    <UnitTest name="NeedsUpgrade_ReturnsTrueWhenParamsLower" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="4e1270e5-0306-4242-3ec8-c7da0dc828cb">
+      <Execution id="e55b622f-7f25-4ec4-afbf-844b7490eab3" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.PasswordHasherNeedsUpgradeTests" name="NeedsUpgrade_ReturnsTrueWhenParamsLower" />
+    </UnitTest>
+    <UnitTest name="Authenticate_ValidCredentials_Succeeds" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="6f6bd1f1-b557-41fa-b188-82549366ae45">
+      <Execution id="d2ad2d93-b496-4760-94b9-8838f3d17d89" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestLoginUserManager" name="Authenticate_ValidCredentials_Succeeds" />
+    </UnitTest>
+    <UnitTest name="Authenticate_SanitizationApplied" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="6c88316a-55b3-a01d-fabf-9ccae9c8f11c">
+      <Execution id="f16e0d12-2668-4b90-b7c8-6b6008bf2551" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestLoginUserManager" name="Authenticate_SanitizationApplied" />
+    </UnitTest>
+    <UnitTest name="RehashOnLogin_PersistsNewHash" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="40c1d60d-72d6-cd3e-006c-567f9ffa3e57">
+      <Execution id="285cdba8-c966-4b55-9b68-f4661a72486b" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.IntegrationTests.LoginUserManagerRehashTests" name="RehashOnLogin_PersistsNewHash" />
+    </UnitTest>
+    <UnitTest name="SanitizeForHtml_EncodesHtmlEntities" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="3b6dc066-49e5-97f0-4635-0a2df30de694">
+      <Execution id="199d6111-92cc-4e65-82dd-6315f15ef6d0" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.ValidationHelpersTests" name="SanitizeForHtml_EncodesHtmlEntities" />
+    </UnitTest>
+    <UnitTest name="NonAdminAuthenticated_CannotAssign_Manager_Returns_Forbidden" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="6d7d9acf-a3c0-760a-7cf9-fbe172dbe400">
+      <Execution id="2849ac2b-e2c8-4c03-8938-763b46eb4671" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.IntegrationTests.ManagerEndpointsAuthorizationTests" name="NonAdminAuthenticated_CannotAssign_Manager_Returns_Forbidden" />
+    </UnitTest>
+    <UnitTest name="Register_DuplicateUser_Fails" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="c231eb87-2938-1553-1fd2-c315a2ae45ea">
+      <Execution id="8595c78b-7df6-4f22-915f-9cb19236b108" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestLoginUserManager" name="Register_DuplicateUser_Fails" />
+    </UnitTest>
+    <UnitTest name="SanitizeForHtml_RemovesScriptTagsAndEventHandlers" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="7824a047-162c-c097-aef0-89e666af1846">
+      <Execution id="17f0ed88-ae6b-4f24-a164-245bd9b31350" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.ValidationHelpersTests" name="SanitizeForHtml_RemovesScriptTagsAndEventHandlers" />
+    </UnitTest>
+    <UnitTest name="TestForSQLInjection_Sanitize" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="d3263073-8444-f834-4f07-b03644306f82">
+      <Execution id="aa8d3d92-df77-4d4b-bf4d-1f7f132e09d2" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_Sanitize" />
+    </UnitTest>
+    <UnitTest name="Unauthenticated_CannotAccess_ManagerEndpoints_Returns_Unauthorized" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="fa41d05a-702f-ca79-7127-eb5ecc068a1f">
+      <Execution id="9e1d6cb9-7605-49c1-9447-ff4349f7ea1a" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.IntegrationTests.ManagerEndpointsAuthorizationTests" name="Unauthenticated_CannotAccess_ManagerEndpoints_Returns_Unauthorized" />
+    </UnitTest>
+    <UnitTest name="When_NoConnectionString_Registers_InMemoryRepo" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="751ec890-a1e5-1239-307b-ccdebdcd929f">
+      <Execution id="90e91fa3-f9be-4fcc-a4ce-c53cab93495d" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.RepositoryRegistrationTests" name="When_NoConnectionString_Registers_InMemoryRepo" />
+    </UnitTest>
+    <UnitTest name="Sanitize_RemovesSqlKeywordsAndPunctuation" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="e6030fd9-acf8-7681-32c9-55edad5495f6">
+      <Execution id="e0de626b-c747-43ed-943a-79a754a8505f" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.SanitizationTests" name="Sanitize_RemovesSqlKeywordsAndPunctuation" />
+    </UnitTest>
+    <UnitTest name="TestForSQLInjection_Comment" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="b8856c4b-42fc-354e-2028-ba3c2b6a8acb">
+      <Execution id="9682337f-aa62-4ecb-890c-d03bb8d4a291" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_Comment" />
+    </UnitTest>
+    <UnitTest name="AdminUser_CanGetToken_AndAccess_AdminEndpoint" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="267a80f6-21b5-1836-ca2f-a41d4d97df19">
+      <Execution id="57e06f21-cb97-4a51-882b-334613578072" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.IntegrationTests.AuthTokenAndAdminTests" name="AdminUser_CanGetToken_AndAccess_AdminEndpoint" />
+    </UnitTest>
+    <UnitTest name="TestForSQLInjection_Blind" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="2a9a555d-ed86-ab18-3041-46983552025b">
+      <Execution id="09ee5e95-84c4-4e1c-a248-755c5b761f66" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_Blind" />
+    </UnitTest>
+    <UnitTest name="AdminUser_CanList_AllUsers" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="35bcc17b-8868-51c9-7380-500ff30df65f">
+      <Execution id="e7d6fba8-5dfc-49d1-80b4-1eb6b2c3d9df" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.IntegrationTests.AdminEndpointsTests" name="AdminUser_CanList_AllUsers" />
+    </UnitTest>
+    <UnitTest name="Register_InvalidInput_Fails" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="ff49bbc3-a7d9-3bb5-ec05-71a2c6e40380">
+      <Execution id="c26316a5-fcdd-49c0-a823-604cf694cb16" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestLoginUserManager" name="Register_InvalidInput_Fails" />
+    </UnitTest>
+    <UnitTest name="CreateUser_AdminCanCreateUser" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="a9e1a7cb-c9da-0feb-4ce4-18cafc71f28a">
+      <Execution id="2278e30f-2aa0-4e6d-a65e-1d6ef13cf202" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.AdminControllerTests" name="CreateUser_AdminCanCreateUser" />
+    </UnitTest>
+    <UnitTest name="Authenticate_WrongPassword_Fails" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="2659d590-577e-2fb2-e7c1-cd0ed5646ff7">
+      <Execution id="1bc89f7e-a896-4ffa-87ca-7e59991cb411" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestLoginUserManager" name="Authenticate_WrongPassword_Fails" />
+    </UnitTest>
+    <UnitTest name="Admin_CanAssign_AndClear_ManagerForUser" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="193e71bb-3054-9c5c-477d-61883abd9fcb">
+      <Execution id="b0cfdb1c-2ad3-4c47-ae87-0d55a6284c38" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.IntegrationTests.ManagerEndpointsTests" name="Admin_CanAssign_AndClear_ManagerForUser" />
+    </UnitTest>
+    <UnitTest name="IsLikelyXssAttempt_DetectsCommonPatterns" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="be838838-d8fb-64c7-6161-298c8892f055">
+      <Execution id="cfc541a7-83da-4cf7-9f56-fcbff08b449a" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.ValidationHelpersTests" name="IsLikelyXssAttempt_DetectsCommonPatterns" />
+    </UnitTest>
+    <UnitTest name="Register_ValidUser_Succeeds" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="297cb882-8b36-3fe7-e89d-ef61cdf79dd0">
+      <Execution id="76503e74-e7bb-4560-b7e1-29fb1e86d8be" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestLoginUserManager" name="Register_ValidUser_Succeeds" />
+    </UnitTest>
+    <UnitTest name="TestForXSS_Sanitize" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="07b5874c-cd58-f956-f0b7-3a1ba63c686a">
+      <Execution id="ce39f8eb-e9eb-49b2-a369-ab848cbe5c89" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForXSS_Sanitize" />
+    </UnitTest>
+    <UnitTest name="When_DefaultConnection_Exists_Registers_UserRepository" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="5da4a881-a09c-f09b-5abe-f0ba486c7b3a">
+      <Execution id="c7164b5c-04a2-4c58-8873-6b7915325807" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.RepositoryRegistrationTests" name="When_DefaultConnection_Exists_Registers_UserRepository" />
+    </UnitTest>
+    <UnitTest name="TestForSQLInjection_Tautology" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="0e5c9324-fe2d-4953-186e-0bfada02196c">
+      <Execution id="3aaf2817-2941-457b-b10c-b4b6651fceef" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_Tautology" />
+    </UnitTest>
+    <UnitTest name="HashAndVerify_Succeeds" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="4530a0a9-dc8f-5216-7f34-0252a3d74013">
+      <Execution id="a2e99ba9-8e7e-4a84-aece-4a5ac1580043" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.PasswordHasherTests" name="HashAndVerify_Succeeds" />
+    </UnitTest>
+    <UnitTest name="TestForSQLInjection_Union" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="235653c1-a35e-5dae-16ac-1c97d075d3a0">
+      <Execution id="decb949e-21c1-4d81-8e5b-709f1a84314f" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_Union" />
+    </UnitTest>
+    <UnitTest name="TestForSQLInjection_TestUserRepository" storage="c:\users\jeste\onedrive\documents\github2\safevault\api.tests\bin\debug\net10.0\api.tests.dll" id="ad2fd7d3-4bbc-6645-0114-37cde3ab61e4">
+      <Execution id="51b235ff-46d0-4620-9399-e94343002b16" />
+      <TestMethod codeBase="C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="Api.Tests.TestInputValidation" name="TestForSQLInjection_TestUserRepository" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="6d7d9acf-a3c0-760a-7cf9-fbe172dbe400" executionId="2849ac2b-e2c8-4c03-8938-763b46eb4671" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6f6bd1f1-b557-41fa-b188-82549366ae45" executionId="d2ad2d93-b496-4760-94b9-8838f3d17d89" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="235653c1-a35e-5dae-16ac-1c97d075d3a0" executionId="decb949e-21c1-4d81-8e5b-709f1a84314f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff49bbc3-a7d9-3bb5-ec05-71a2c6e40380" executionId="c26316a5-fcdd-49c0-a823-604cf694cb16" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6030fd9-acf8-7681-32c9-55edad5495f6" executionId="e0de626b-c747-43ed-943a-79a754a8505f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="35bcc17b-8868-51c9-7380-500ff30df65f" executionId="e7d6fba8-5dfc-49d1-80b4-1eb6b2c3d9df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5da4a881-a09c-f09b-5abe-f0ba486c7b3a" executionId="c7164b5c-04a2-4c58-8873-6b7915325807" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="297cb882-8b36-3fe7-e89d-ef61cdf79dd0" executionId="76503e74-e7bb-4560-b7e1-29fb1e86d8be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6c88316a-55b3-a01d-fabf-9ccae9c8f11c" executionId="f16e0d12-2668-4b90-b7c8-6b6008bf2551" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="267a80f6-21b5-1836-ca2f-a41d4d97df19" executionId="57e06f21-cb97-4a51-882b-334613578072" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2659d590-577e-2fb2-e7c1-cd0ed5646ff7" executionId="1bc89f7e-a896-4ffa-87ca-7e59991cb411" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4cccfcc9-c5f1-88f4-602c-4d25b0167638" executionId="2f04a4b6-f51f-4b54-a30d-110d9aeeaad1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="751ec890-a1e5-1239-307b-ccdebdcd929f" executionId="90e91fa3-f9be-4fcc-a4ce-c53cab93495d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="193e71bb-3054-9c5c-477d-61883abd9fcb" executionId="b0cfdb1c-2ad3-4c47-ae87-0d55a6284c38" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="be838838-d8fb-64c7-6161-298c8892f055" executionId="cfc541a7-83da-4cf7-9f56-fcbff08b449a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0e5c9324-fe2d-4953-186e-0bfada02196c" executionId="3aaf2817-2941-457b-b10c-b4b6651fceef" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a9e1a7cb-c9da-0feb-4ce4-18cafc71f28a" executionId="2278e30f-2aa0-4e6d-a65e-1d6ef13cf202" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e1270e5-0306-4242-3ec8-c7da0dc828cb" executionId="e55b622f-7f25-4ec4-afbf-844b7490eab3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad2fd7d3-4bbc-6645-0114-37cde3ab61e4" executionId="51b235ff-46d0-4620-9399-e94343002b16" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4530a0a9-dc8f-5216-7f34-0252a3d74013" executionId="a2e99ba9-8e7e-4a84-aece-4a5ac1580043" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa41d05a-702f-ca79-7127-eb5ecc068a1f" executionId="9e1d6cb9-7605-49c1-9447-ff4349f7ea1a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7824a047-162c-c097-aef0-89e666af1846" executionId="17f0ed88-ae6b-4f24-a164-245bd9b31350" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8856c4b-42fc-354e-2028-ba3c2b6a8acb" executionId="9682337f-aa62-4ecb-890c-d03bb8d4a291" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07b5874c-cd58-f956-f0b7-3a1ba63c686a" executionId="ce39f8eb-e9eb-49b2-a369-ab848cbe5c89" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3b6dc066-49e5-97f0-4635-0a2df30de694" executionId="199d6111-92cc-4e65-82dd-6315f15ef6d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c231eb87-2938-1553-1fd2-c315a2ae45ea" executionId="8595c78b-7df6-4f22-915f-9cb19236b108" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="40c1d60d-72d6-cd3e-006c-567f9ffa3e57" executionId="285cdba8-c966-4b55-9b68-f4661a72486b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2e3cc4c0-9d60-f8f6-cb96-d95864c95912" executionId="eced14a7-0a3d-450c-86dd-287b34dc8276" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5556af53-bd2f-5812-e982-8b00a18a139f" executionId="27c327ff-fa0b-4fdf-b012-1806dec5a084" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2a9a555d-ed86-ab18-3041-46983552025b" executionId="09ee5e95-84c4-4e1c-a248-755c5b761f66" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3263073-8444-f834-4f07-b03644306f82" executionId="aa8d3d92-df77-4d4b-bf4d-1f7f132e09d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="31" executed="31" passed="31" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 5.2.0.0: Test execution started&#xD;
+Running all tests in C:\Users\jeste\OneDrive\Documents\GitHub2\SafeVault\Api.Tests\bin\Debug\net10.0\Api.Tests.dll&#xD;
+   NUnit3TestExecutor discovered 31 of 31 NUnit test cases using Current Discovery mode, Non-Explicit run&#xD;
+info: Seed[0]&#xD;
+      Seeded initial admin user 'admin'&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: https://localhost:5046&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: http://localhost:5046&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication attempt for username 'listadmin'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication succeeded for username 'listadmin'&#xD;
+&#xD;
+info: Seed[0]&#xD;
+      Seeded initial admin user 'admin'&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: https://localhost:5046&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: http://localhost:5046&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      User 'integuser' registered successfully&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication attempt for username 'integuser'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication succeeded for username 'integuser'&#xD;
+&#xD;
+info: Seed[0]&#xD;
+      Seeded initial admin user 'admin'&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: https://localhost:5046&#xD;
+info: Microsoft.Hosting.Lifetime[14]&#xD;
+      Now listening on: http://localhost:5046&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication attempt for username 'rehashuser'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Authentication succeeded for username 'rehashuser'&#xD;
+info: Api.Services.LoginUserManager[0]&#xD;
+      Rehashed password for username 'rehashuser' with upgraded parameters&#xD;
+&#xD;
+NUnit Adapter 5.2.0.0: Test execution complete&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
